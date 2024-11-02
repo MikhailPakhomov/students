@@ -48,6 +48,7 @@ type Entry = {
   free?: boolean;
 };
 const clientsEntries: Entry[] = [
+  { kidsId: 0, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
   { kidsId: 1, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
   { kidsId: 2, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
   { kidsId: 3, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
@@ -57,7 +58,6 @@ const clientsEntries: Entry[] = [
   { kidsId: 7, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
   { kidsId: 8, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
   { kidsId: 9, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
-  { kidsId: 10, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
 ];
 
 function App() {
@@ -65,7 +65,10 @@ function App() {
 
   const deleteEntry = (array: Entry[], index: number): void => {
     array.splice(index, 1, { free: true });
-    console.log(array);
+    setEntries((prevEntries) => [...array]);
+  };
+  const addEntry = (array: Entry[], index: number, entry: Entry): void => {
+    array.splice(index, 1, entry);
     setEntries((prevEntries) => [...array]);
   };
   return (
@@ -95,13 +98,23 @@ function App() {
             <div className="bottom-client_monday">
               {entries.map((entry, index) => {
                 return (
-                  <div
-                    className="bottom-clients-item-wrapper"
-                    onClick={() => {
-                      console.log(entry.kidsId);
-                    }}>
+                  <div className="bottom-clients-item-wrapper">
                     {entry.free ? (
-                      <div>Свободно</div>
+                      <>
+                        <div>Свободно</div>
+                        <button
+                          onClick={() => {
+                            addEntry(entries, index, {
+                              kidsId: index,
+                              kidsName: 'Новое имя',
+                              phoneNumber: 'Новый номер',
+                              lesson: 'Новый урок',
+                              free: false,
+                            });
+                          }}>
+                          Добавить
+                        </button>
+                      </>
                     ) : (
                       <>
                         <div>{entry.kidsName}</div>

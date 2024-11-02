@@ -41,64 +41,33 @@ const weekDays: string[] = [
 ];
 
 type Entry = {
+  kidsId?: number;
   kidsName?: string;
   phoneNumber?: string;
   lesson?: string;
+  free?: boolean;
 };
 const clientsEntries: Entry[] = [
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
-  {
-    kidsName: 'Вася',
-    phoneNumber: '89991112233',
-    lesson: 'Русский язык',
-  },
+  { kidsId: 1, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 2, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 3, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 4, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 5, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 6, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 7, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 8, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 9, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
+  { kidsId: 10, kidsName: 'Вася', phoneNumber: '89991112233', lesson: 'Русский язык', free: false },
 ];
 
 function App() {
+  const [entries, setEntries] = React.useState(clientsEntries);
+
+  const deleteEntry = (array: Entry[], index: number): void => {
+    array.splice(index, 1, { free: true });
+    console.log(array);
+    setEntries((prevEntries) => [...array]);
+  };
   return (
     <>
       <div className="container">
@@ -124,16 +93,28 @@ function App() {
           </div>
           <div className="bottom-client">
             <div className="bottom-client_monday">
-              {clientsEntries.map((entry, index) => {
+              {entries.map((entry, index) => {
                 return (
                   <div
                     className="bottom-clients-item-wrapper"
-                    onClick={(event) => {
-                      console.log(event.target);
+                    onClick={() => {
+                      console.log(entry.kidsId);
                     }}>
-                    <div>{entry.kidsName}</div>
-                    <div>{entry.lesson}</div>
-                    <div>{entry.phoneNumber}</div>
+                    {entry.free ? (
+                      <div>Свободно</div>
+                    ) : (
+                      <>
+                        <div>{entry.kidsName}</div>
+                        <div>{entry.lesson}</div>
+                        <div>{entry.phoneNumber}</div>
+                        <button
+                          onClick={() => {
+                            deleteEntry(entries, index);
+                          }}>
+                          удалить
+                        </button>
+                      </>
+                    )}
                   </div>
                 );
               })}
